@@ -1,0 +1,94 @@
+/*!
+TelUI-button
+authors: Jesse Harlin, Joe Hare
+ */
+
+$brick ?= 28px /*Worldspace Brick Size. Change this to anything.*/
+
+$color-default ?= gray;
+$color-error ?= red;
+$color-highlight ?= orange;
+$color-success ?= green;
+$color-advantage ?= purple;
+
+$border-width ?= 2px;
+$border-style ?= solid;
+
+$interactivityTolerance ?= 30%;
+
+$brick ?= 30px;
+$line ?= $brick * 0.5;
+$border-radius ?= 4px;
+$line-margin ?= ($brick - $line) * 0.5;
+
+
+
+.ui-button,
+.ui-button:link,
+.ui-button:visited,
+.ui-button:hover,
+.ui-button:active 
+  text-decoration: none;
+
+.ui-appearance-button 
+    box-sizing();
+    line-height: $line-height;
+    font-size: $line;
+    min-height: $line-height;
+    border-radius: $border-radius;
+    display: block;
+    padding: 0;
+    margin: 0 auto;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    overflow: visible;
+    .ui-icon-primary, 
+    .ui-icon-secondary
+      margin: $line-margin $line-margin;
+
+
+
+.ui-appearance-button
+  w = $brick + $border-width
+  h = $brick + $border-width
+  &.ui-appearance-button-has-icon-primary
+    width: w;
+    height: h;
+    .ui-icon-secondary
+      margin-right: auto;
+  &.ui-appearance-button-has-icon-secondary
+    width: w;
+    height: h;
+    .ui-icon-secondary
+      margin-left: auto;
+  &.ui-appearance-button-has-icon-primary.ui-appearance-button-has-icon-secondary
+    width:  ($brick * 2) + ($border-width * 2);
+    height: h;
+  &.ui-appearance-button-has-text
+    width: 100%;
+    height: auto;
+    &.ui-appearance-button-has-icon-primary
+      .ui-appearance-button-text
+        text-indent: -1 * $brick;
+    &.ui-appearance-button-has-icon-secondary
+      .ui-appearance-button-text
+        text-indent: $brick;
+    &.ui-appearance-button-has-icon-secondary.ui-appearance-button-has-icon-primary
+      width: 100%;
+      .ui-appearance-button-text
+        text-indent: 0px;
+
+
+$priorities ?= {
+  'primary': 'ui-priority-primary',
+  'secondary': 'ui-priority-secondary'
+};
+
+
+
+
+ui-states('.ui-appearance-button', '&', $ui-states, iBtn, $interactivityTolerance)
+
+
+

@@ -1,0 +1,48 @@
+_trannySpeed = $transitionSpeed;
+
+btn(){
+  border-width: $border-width;
+  border-style: $border-style;
+  transition: color _trannySpeed, border _trannySpeed, background _trannySpeed;
+}
+
+btnDefault(ui-state,tolerance){
+  up = lighten(desaturate(ui-state, (tolerance * 0.7)), (tolerance* 0.3));
+  down = darken(saturate(ui-state, (tolerance * 0.8)), (tolerance* 0.2));
+  btn();
+  legibleTextColor(ui-state);
+  background: ui-state;
+  border-color: down; 
+}
+
+btnHover(ui-state,tolerance){
+  up = lighten(desaturate(ui-state, (tolerance * 0.7)), (tolerance* 0.3));
+  down = darken(saturate(ui-state, (tolerance * 0.8)), (tolerance* 0.2));
+  btn();
+  legibleTextColor(up);
+  background: up; 
+  border-color: down; 
+}
+
+btnActive(ui-state,tolerance){
+  up = lighten(desaturate(ui-state, (tolerance * 0.7)), (tolerance* 0.3));
+  down = darken(saturate(ui-state, (tolerance * 0.8)), (tolerance* 0.2));
+  btn();
+  legibleTextColor(down);
+  background: down;
+  border-color: down; 
+}
+
+
+btnDisabled(ui-state,tolerance){
+  btnDefault(ui-state,tolerance);
+  opacity:0.5;
+  cursor: default;
+}
+
+iBtn = {
+  'default': btnDefault,
+  'hover': btnHover,
+  'active': btnActive,
+  'disabled' : btnDisabled   
+}

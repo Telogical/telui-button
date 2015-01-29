@@ -1,0 +1,27 @@
+{
+  "name": "@telogical/telui-button",
+  "version": "1.0.0",
+  "description": "A button component built atop telui-core",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Telogical/telui-button.git"
+  },
+  "keywords": [
+    "telui",
+    "form",
+    "button"
+  ],
+  "author": "jharlin@telogical.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Telogical/telui-button/issues"
+  },
+    "dependencies": {
+    "@telogical/telui-core": "1.x.x"
+  },
+  "homepage": "https://github.com/Telogical/telui-button"
+}
