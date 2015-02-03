@@ -1,67 +1,60 @@
-var React = require('react/addons');
-require('@telogical/telui-core');
-var TelogicalUi = angular.module('TelUI');
-var UI = require('../react/telui');
-var _ = require('lodash');
+var TelogicalUi = angular.module('TelUI'),
+  UI = require('../react/telui');
 
 TelogicalUi
-  .directive('teluiButton', [
+  .directive('teluiButton', function reactButtonDirective() {
+    'use strict';
 
-      function reactButtonDirective() {
-      'use strict';
+    function link(scope, $el, attrs) {
+      var id = scope.id ?
+        scope.id :
+        'button_' + Math.round(Math.random() * 9999);
 
-      return {
-        restrict: 'E',
-        replace: true,
-        scope: {
-          id: '@',
-          value: '=?',
-          label: '@',
-          disabled: '=',
-          iconPrimary: '@',
-          iconSecondary: '@',
-          appearance: '@',
-          click: '&?',
-          cssClass: '@',
-          text: '=?',
-          state: '@'
-        },
-        template: '<div class="waffles"></div>',
-        link: function link(scope, $el, attrs) {
-          var id = scope.id ? scope.id : 'button_' + Math.round(Math.random() * 9999);
-            
-          function render(newValue, oldValue) {
+      function render(newValue, oldValue) {
 
-            if (typeof scope.text === 'undefined') {
-              scope.text = true;
-            }
-
-            $el.removeAttr('disabled');
-
-            var model = {
-              scope: scope,
-              id: id,
-              label: scope.label,
-              iconPrimary: scope.iconPrimary,
-              iconSecondary: scope.iconSecondary,
-              cssClass: scope.cssClass,
-              text: scope.text,
-              disabled: scope.disabled,
-              click: scope.click,
-              value: scope.value,
-              appearance: scope.appearance || 'button',
-              orientation: scope.orientation || 'vertical',
-              uiState: scope.state || ''
-            };
-
-
-            React.renderComponent(UI.Button(model), $el[0]);
-          }
-
-          //scope.$parent.$watch(attrs.ngDisabled, render);
-          scope.$watchCollection('[label, iconPrimary, iconSecondary, disabled, cssClass, text, click, appearance, state]', render);
-
+        if (typeof scope.text === 'undefined') {
+          scope.text = true;
         }
-      };
+
+        $el.removeAttr('disabled');
+
+        var model = {
+          scope: scope,
+          id: id,
+          label: scope.label,
+          iconPrimary: scope.iconPrimary,
+          iconSecondary: scope.iconSecondary,
+          cssClass: scope.cssClass,
+          text: scope.text,
+          disabled: scope.disabled,
+          click: scope.click,
+          value: scope.value,
+          appearance: scope.appearance || 'button',
+          orientation: scope.orientation || 'vertical',
+          uiState: scope.state || ''
+        };
+        React.renderComponent(UI.Button(model), $el[0]);
+      }
+      scope.$watchCollection('[label, iconPrimary, iconSecondary, disabled, cssClass, text, click, appearance, state]', render);
     }
-]);
+
+    return {
+      restrict: 'E',
+      replace: true,
+      scope: {
+        id: '@',
+        value: '=?',
+        label: '@',
+        disabled: '=',
+        iconPrimary: '@',
+        iconSecondary: '@',
+        appearance: '@',
+        click: '&?',
+        cssClass: '@',
+        text: '=?',
+        state: '@'
+      },
+      template: '<div class="waffles"></div>',
+      link: link
+    };
+  });
