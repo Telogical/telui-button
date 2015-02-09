@@ -1,6 +1,8 @@
-global.UI = global.UI || require('@telogical/telui-core');
+require('@telogical/telui-core');
 
 global.UI.Appearances.button = require('./appearances/button')(global.UI);
-global.UI.button = require('./widgets/button')(global.UI);
+global.UI.Button = require('./widgets/button')(global.UI);
+
+console.log('btn', global.UI.Appearances);
 
 module.exports = global.UI;

@@ -46,7 +46,7 @@ function AppearanceButton(ui) {
         'className': 'ui-appearance-button-text w-auto',
         id: this.props.id + '_button_label'
       };
-
+      
       var value = this.props.value,
         list = this.props.list,
         key = this.props.key || this.props.id || _.uniqueId('button'),
@@ -74,7 +74,7 @@ function AppearanceButton(ui) {
       if (this.props.cssClass && this.props.cssClass.length) {
         appearanceClasses[this.props.cssClass] = true;
       }
-      
+
       //TODO: handle context, this, and control across components
       var btnAttrs = {
         id: key + '_button',

@@ -1,116 +1,141 @@
-function AppearanceButton(ui) {
+function Button(ui) {
   'use strict';
 
   return React.createClass({
-    displayName: 'Appearance.button',
-    mixins: [ui.Mixins.Appearance],
+    displayName: 'Button',
+    mixins: [ui.Mixins.Widget],
+    propTypes: {
+
+    },
+
+    __clickChangeHandle: function clickChangeHandle() {
+      if (!this.props.disabled && this.props.click && typeof this.props.click === 'function') {
+        var model = this;
+        model.props.scope.$apply(model.props.click);
+      }
+    },
+
+    __onChange: function onChange() {
+      this.__clickChangeHandle();
+    },
+    __onClick: function onClick() {
+      this.__clickChangeHandle();
+    },
+
+    __onMouseDown: function onMouseDown() {
+      this.setState({
+        active: true
+      });
+    },
+
+    __onMouseUp: function onMouseUp() {
+      this.setState({
+        active: false
+      });
+    },
+    __onMouseEnter: function onMouseEnter() {
+      if (!this.props.disabled) {
+        this.setState({
+          hover: true
+        });
+      }
+    },
+    __onMouseLeave: function onMouseLeave() {
+      this.setState({
+        hover: false
+      });
+    },
+
     getInitialState: function getInitialState() {
       return {
         id: '',
-        label: '',
-        iconPrimary: '',
-        iconSecondary: '',
-        hover: false,
-        disabled: false,
-        active: false,
-        text: true
+        label: ''
       };
-    },
-
-    __buildIconSet: function buildIconSet(appearanceArguments, glyphPrimary, glyphSecondary) {
-
-      var fixedWidth = 'w-fix w-6 ';
-
-      if (this.props.iconSecondary) {
-        var secondaryAttrs = {
-            className: fixedWidth + 'w-omega'
-          },
-          secondaryIconFrame = React.DOM.span(secondaryAttrs, this.__iconSecondary(glyphSecondary));
-        appearanceArguments.push(secondaryIconFrame);
-      }
-
-      if (this.props.iconPrimary) {
-        var primaryAttrs = {
-            className: fixedWidth + 'w-alpha'
-          },
-          primaryIconFrame = React.DOM.span(primaryAttrs, this.__iconPrimary(glyphPrimary));
-        appearanceArguments.push(primaryIconFrame);
-      }
     },
 
     render: function render() {
       var cx = React.addons.classSet,
         domx = React.DOM;
 
-      var spanAttrs = {
-        'className': 'ui-appearance-button-text w-auto',
-        id: this.props.id + '_button_label'
-      };
+      this.props.appearance = this.props.appearance || 'button';
 
-      var value = this.props.value,
+      if (this.props.text === false) {
+        this.props.label = '';
+      }
+
+      var id = this.props.id,
+        key = this.props.key || this.props.id,
+        value = this.props.value,
         list = this.props.list,
-        key = this.props.key || this.props.id || _.uniqueId('button'),
-        control = this.props.control,
+        listValue = this.props.listValue,
+        cssClass = this.props.cssClass,
+        name = this.props.name,
+        disabled = !!this.props.disabled,
+        iconPrimary = this.props.iconPrimary,
+        iconSecondary = this.props.iconSecondary,
         active = (this.props.active || this.state.active),
-        glyphPrimary = this.props.iconPrimary,
-        glyphSecondary = this.props.iconSecondary,
-        verticalGrid = 0;
+        uiState = this.props.uiState;
 
-      var appearanceClasses = {
+
+      var btnInputClasses = {
+          'ui-helper-hidden-accessible': true
+        },
+        btnInputAttrs = {
+          id: this.props.id + '_input',
+          className: cx(btnInputClasses),
+          role: 'button',
+          'aria-disabled': !!this.props.disabled,
+          ref: 'input'
+        };
+
+      if (this.props.focusable === false) {
+        btnInputAttrs.tabIndex = -1;
+      }
+
+
+      var buttonLiClasses = {
         'ui-widget': true,
-        'ui-appearance-button': true,
-        'ui-appearance-button-has-icon-primary': glyphPrimary,
-        'ui-appearance-button-has-icon-secondary': glyphSecondary,
-        'ui-appearance-button-has-text': control.props.text,
-        'ui-state-default': true,
-        'ui-state-hover': control.state.hover,
-        'ui-state-active': active && !control.props.disabled,
-        'ui-state-disabled': control.props.disabled
+        'ui-button': true,
+        'w-12': true,
+        'w-alpha': true,
+        'w-omega': true
       };
 
-      appearanceClasses = this.__applyUiStates.call(control, appearanceClasses);
-      appearanceClasses['w-v-' + verticalGrid] = true;
-
-      if (this.props.cssClass && this.props.cssClass.length) {
-        appearanceClasses[this.props.cssClass] = true;
+      if (cssClass) {
+        buttonLiClasses[cssClass] = true;
       }
 
-      //TODO: handle context, this, and control across components
-      var btnAttrs = {
-        id: key + '_button',
-        className: cx(appearanceClasses),
-        role: 'button',
-        'aria-disabled': !!this.props.disabled,
-        onClick: control.__onChange.bind(null, value, list),
-        onMouseEnter: control.__onMouseEnter ?
-          control.__onMouseEnter.bind(null, control) : this.__onMouseEnter.bind(null, control),
-        onMouseLeave: control.__onMouseLeave ?
-          control.__onMouseLeave.bind(null, control) : this.__onMouseLeave.bind(null, control),
-        onMouseDown: control.__onMouseDown ?
-          control.__onMouseDown.bind(null, control) : this.__onMouseDown.bind(null, control),
-        onMouseUp: control.__onMouseUp ?
-          control.__onMouseUp.bind(null, control) : this.__onMouseUp.bind(null, control)
+      var buttonLiAttrs = {
+        id: key + '_li',
+        key: key + '_li',
+        className: cx(buttonLiClasses)
       };
 
-      if (!!this.props.disabled) {
-        btnAttrs.disabled = 'disabled';
-      }
+      var appearanceModel = {
+        value: value,
+        list: list,
+        disabled: disabled,
+        id: id + '_appearance_' + this.props.appearance,
+        control: this,
+        label: this.props.label,
+        iconPrimary: iconPrimary,
+        iconSecondary: iconSecondary,
+        active: active,
+        uiState: uiState
+      };
 
-      var text = domx.span(spanAttrs, this.props.label);
+      var input = domx.input(btnInputAttrs, ''),
+        appearance = ui.Appearances[this.props.appearance](appearanceModel);
 
-      var appearanceArguments = [btnAttrs];
-      this.__buildIconSet(appearanceArguments, glyphPrimary, glyphSecondary);
+      var li = domx.li(buttonLiAttrs, input, appearance);
 
-      if (control.props.text) {
-        appearanceArguments.push(text);
-      }
+      return li;
+    },
 
-      var appearance = domx.div.apply(null, appearanceArguments);
+    __makeInput: function makeInput() {
 
-      return appearance;
     }
   });
-
 }
 
-module.exports = AppearanceButton;
+module.exports = Button;
