@@ -1,6 +1,9 @@
 function AppearanceButton(ui) {
   'use strict';
 
+  var React = ui.Core.React,
+    _ = ui.Core._;
+
   return React.createClass({
     displayName: 'Appearance.button',
     mixins: [ui.Mixins.Appearance],
@@ -46,7 +49,7 @@ function AppearanceButton(ui) {
         'className': 'ui-appearance-button-text w-auto',
         id: this.props.id + '_button_label'
       };
-      
+
       var value = this.props.value,
         list = this.props.list,
         key = this.props.key || this.props.id || _.uniqueId('button'),

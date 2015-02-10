@@ -1,8 +1,8 @@
+var UI = require('../react/telui'),
+  React = UI.Core.React;
 
-var TelogicalUi = angular.module('TelUI'),
-  UI = require('../react/telui');
-
-TelogicalUi
+angular
+  .module('TelUI')
   .directive('teluiButton', [
 
       function reactButtonDirective() {

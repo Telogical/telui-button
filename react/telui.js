@@ -1,8 +1,8 @@
-require('@telogical/telui-core');
+var TelUI = require('@telogical/telui-core');
 
-global.UI.Appearances.button = require('./appearances/button')(global.UI);
-global.UI.Button = require('./widgets/button')(global.UI);
+TelUI.Appearances.button = require('./appearances/button')(TelUI);
+TelUI.Button = require('./widgets/button')(TelUI);
 
-console.log('btn', global.UI.Appearances);
+console.log('btn', TelUI.Appearances);
 
-module.exports = global.UI;
+module.exports = TelUI;

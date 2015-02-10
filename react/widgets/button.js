@@ -1,6 +1,9 @@
 function Button(ui) {
   'use strict';
 
+  var React = ui.Core.React,
+    _ = ui.Core._;
+
   return React.createClass({
     displayName: 'Button',
     mixins: [ui.Mixins.Widget],
