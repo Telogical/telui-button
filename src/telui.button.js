@@ -26,8 +26,10 @@ angular
         },
         template: '<div class="waffles"></div>',
         link: function link(scope, $el, attrs) {
-          var id = scope.id ? scope.id : 'list_check_' + Math.round(Math.random() * 9999);
-            
+          var id = scope.id ?
+            scope.id :
+            'list_check_' + Math.round(Math.random() * 9999);
+
           function render(newValue, oldValue) {
 
             if (typeof scope.text === 'undefined') {
